@@ -1,8 +1,12 @@
 package org.josefalt.car_service.controller;
 
+import java.util.List;
+
 import org.josefalt.car_service.dto.CarRequest;
+import org.josefalt.car_service.dto.CarResponse;
 import org.josefalt.car_service.service.CarService;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +38,16 @@ public class CarController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createCar(@RequestBody CarRequest request) {
 		service.createCar(request);
+	}
+
+	/**
+	 * Retrieve all cars
+	 * 
+	 * @return a list of all cars in database
+	 */
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public List<CarResponse> getAllCars() {
+		return service.getAllCars();
 	}
 }

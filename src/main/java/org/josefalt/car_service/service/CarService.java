@@ -1,6 +1,9 @@
 package org.josefalt.car_service.service;
 
+import java.util.List;
+
 import org.josefalt.car_service.dto.CarRequest;
+import org.josefalt.car_service.dto.CarResponse;
 import org.josefalt.car_service.model.Car;
 import org.josefalt.car_service.repository.CarRepository;
 import org.springframework.stereotype.Service;
@@ -36,5 +39,32 @@ public class CarService {
 		
 		repository.save(car);
 		log.info("Saved car {} to database.", car.getId());
+	}
+
+	/**
+	 * Retrieve all Car instances from database
+	 * 
+	 * @return {@code List} of all cars.
+	 */
+	public List<CarResponse> getAllCars() {
+		List<Car> cars = repository.findAll();
+
+		return cars.stream()
+				.map(car -> mapToCarResponse(car))
+				.toList();
+	}
+
+	/**
+	 * Convert {@code Car} to {@code CarResponse} to prevent exposing unnecessary data.
+	 * 
+	 * @param car original {@code Car} instance
+	 * @return new object with only the necessary fields from {@code Car}
+	 */
+	private CarResponse mapToCarResponse(Car car) {
+		return CarResponse.builder()
+				.model(car.getModel())
+				.description(car.getDescription())
+				.price(car.getPrice())
+				.build();
 	}
 }
