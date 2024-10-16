@@ -65,6 +65,7 @@ public class CarService {
 				.model(car.getModel())
 				.description(car.getDescription())
 				.price(car.getPrice())
+				.id(car.getId())
 				.build();
 	}
 }
