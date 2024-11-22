@@ -8,6 +8,7 @@ import org.josefalt.order_service.model.Order;
 import org.josefalt.order_service.model.OrderItem;
 import org.josefalt.order_service.repository.OrderRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
 	/**
