@@ -1,8 +1,10 @@
 package org.josefalt.inventory_service.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.josefalt.inventory_service.dto.InventoryResponse;
+import org.josefalt.inventory_service.model.Inventory;
 import org.josefalt.inventory_service.repository.InventoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,9 +43,23 @@ public class InventoryService {
 	 */
 	@Transactional(readOnly = true)
 	public List<InventoryResponse> bulkQuery(List<String> units) {
-		return repository.findByUnitIn(units)
-				.stream()
-				.map(inv -> InventoryResponse.builder().unit(inv.getUnit()).inStock(inv.getQuantity() > 0).build())
-				.toList();
+		List<String> requestCopy = new ArrayList<>(units);
+		List<Inventory> found = repository.findByUnitIn(units);
+		List<InventoryResponse> results = new ArrayList<>(units.size());
+
+		// convert any responses into Response objects
+		for (Inventory inv : found) {
+			results.add(InventoryResponse.builder().unit(inv.getUnit()).inStock(inv.getQuantity() > 0).build());
+
+			// remove unit id from copied list
+			requestCopy.remove(inv.getUnit());
+		}
+
+		// generate Response objects for any invalid ids
+		for (String unfound : requestCopy) {
+			results.add(InventoryResponse.builder().unit(unfound).inStock(false).build());
+		}
+
+		return results;
 	}
 }
