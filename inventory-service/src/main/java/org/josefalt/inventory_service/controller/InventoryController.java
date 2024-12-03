@@ -30,7 +30,7 @@ public class InventoryController {
 	 * @param unit unique product number
 	 * @return true if the requested vehicle is in stock
 	 */
-	@GetMapping("/{unit}")
+	@GetMapping("/query/{unit}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public boolean isInStock(@PathVariable("unit") String unit) {
 		return service.isInStock(unit);
