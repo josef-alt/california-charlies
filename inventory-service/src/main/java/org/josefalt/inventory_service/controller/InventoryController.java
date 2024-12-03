@@ -26,7 +26,7 @@ public class InventoryController {
 	/**
 	 * Provide access to required services through constructor injection
 	 */
-	private InventoryService service;
+	private final InventoryService service;
 
 	/**
 	 * Check availability of vehicle based on unit number.
