@@ -41,3 +41,4 @@ The order microservice is responsible for handling incoming car orders. Each car
 </details>
 
 ## inventory service
+The inventory service is used by the order service to determine if vehicles are currently in stock or not.
